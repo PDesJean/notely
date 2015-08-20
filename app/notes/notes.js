@@ -16,6 +16,7 @@ noteApp.config(['$routeProvider', function($routeProvider) {
 noteApp.controller('NotesController', ['$scope', 'NotesBackend', function($scope, NotesBackend) {
   var self = this;
   $scope.note = {};
+  $scope.notes = [];
 
    self.assignNotes = function(notes) {
      $scope.notes = notes;
@@ -23,6 +24,14 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend', function($scope
 
    $scope.commit = function() {
      NotesBackend.postNote($scope.note, self.assignNotes);
+   };
+
+   $scope.hasNotes = function() {
+     return $scope.notes.length > 0;
+   };
+
+   $scope.loadNote = function(note) {
+     $scope.note = self.cloneNote(note);
    };
 
    NotesBackend.fetchNotes(self.assignNotes);
