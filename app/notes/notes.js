@@ -8,8 +8,7 @@ angular.module('notely.notes', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/notes', {
-    templateUrl: 'notes/notes.html',
-    controller: 'NotesController'
+    templateUrl: 'notes/notes.html'
   });
 
 }])
@@ -21,4 +20,18 @@ angular.module('notely.notes', ['ngRoute'])
       $scope.notes = notesData;
       });
 
+    $scope.commit = function() {
+      $http.post(neverNoteBasePath + 'notes', {
+        api_key: apiKey,
+        note: {
+          title: 'The magic of AngularJS',
+          body_html: 'Whoever wrote this API must be a person.'
+        }
+
+      })
+        .success(function(newNoteData) {
+          console.log('Saved!');
+          console.log(newNoteData);
+      });
+    };
 }]);
