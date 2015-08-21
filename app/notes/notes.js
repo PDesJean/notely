@@ -18,8 +18,9 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend', function($scope
   $scope.note = {};
   $scope.notes = [];
 
-   self.assignNotes = function(notes) {
+   self.assignNotes = function(notes, note) {
      $scope.notes = notes;
+     $scope.note = JSON.parse(JSON.stringify(note));
    };
 
    self.findNoteById = function(noteId) {
@@ -42,7 +43,11 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend', function($scope
      else {
        return "Create New"
      }
-   }
+   };
+
+   $scope.clearNote = function() {
+     $scope.note = {}
+   };
 
    $scope.commit = function() {
      if ($scope.note.id) {
