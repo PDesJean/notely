@@ -46,7 +46,8 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend', function($scope
    };
 
    $scope.clearNote = function() {
-     $scope.note = {}
+     $scope.note = {};
+     $scope.$broadcast('noteCleared');
    };
 
    $scope.commit = function() {
@@ -64,6 +65,14 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend', function($scope
 
    $scope.loadNote = function(note) {
      $scope.note = self.cloneNote(note);
+     $scope.$broadcast('noteLoaded');
+   };
+
+   $scope.deleteNote = function() {
+     NotesBackend.deleteNote($scope.note, function(notes, note) {
+       self.assignNotes(notes, note);
+       $scope.clearNote();
+     });
    };
 
    NotesBackend.fetchNotes(self.assignNotes);
